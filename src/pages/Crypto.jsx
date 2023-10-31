@@ -3,14 +3,18 @@ import {FlatList, StyleSheet, SafeAreaView, View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import ListItem from '../components/ListItem';
 import ListHeader from '../components/ListHeader';
-import { fetchMarketData } from '../context/actions/marketAction';
+import { fetchMarketData ,deleteListItem} from '../context/actions/marketAction';
+import Swipeout from 'react-native-swipeout';
 
-function Crypto({data, fetchMarketData  }) {
+function Crypto({data, fetchMarketData, deleteListItem}) {
+
   useEffect(() => {
     fetchMarketData();
   }, [fetchMarketData]);
 
- 
+  const handleDelete = (itemId) => {
+    deleteListItem(itemId);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,7 +23,15 @@ function Crypto({data, fetchMarketData  }) {
         keyExtractor={item => item.id}
         data={data}
         renderItem={({item}) => (
-    
+          <Swipeout
+          right={[
+            {
+              text: 'Delete',
+              backgroundColor: 'red',
+              onPress: () => handleDelete(item.id),
+            },
+          ]}
+        >
           <ListItem
             name={item.name}
             symbol={item.symbol}
@@ -29,7 +41,8 @@ function Crypto({data, fetchMarketData  }) {
             }
             logoUrl={item.image}
           />
-          
+          </Swipeout>
+
         )}
       />
       
@@ -42,8 +55,11 @@ const mapStateToProps = state => {
     data: state.market.data,
   };
 };
-
-export default connect(mapStateToProps, { fetchMarketData })(Crypto);
+const mapDispatchToProps = {
+  fetchMarketData,
+  deleteListItem,
+};
+export default connect(mapStateToProps,mapDispatchToProps)(Crypto);
 
 const styles = StyleSheet.create({
   container: {
