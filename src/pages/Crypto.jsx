@@ -1,29 +1,25 @@
-import React, {useState, useEffect} from 'react';
-import {FlatList, StyleSheet, SafeAreaView,View,Text} from 'react-native';
-import ListItem from '../components/ListItem';
+import React, {useEffect} from 'react';
+import {FlatList, StyleSheet, SafeAreaView, View, Text} from 'react-native';
 import {connect} from 'react-redux';
+import ListItem from '../components/ListItem';
+import ListHeader from '../components/ListHeader';
+import { fetchMarketData } from '../context/actions/marketAction';
 
+function Crypto({data, fetchMarketData  }) {
+  useEffect(() => {
+    fetchMarketData();
+  }, [fetchMarketData]);
 
-
-const ListHeader = () => (
-    <>
-      <View style={styles.titleWrapper}>
-          <Text style={styles.largeTitle}>Markets</Text>
-        </View>
-      <View style={styles.divider} />
-    </>
-  )
-const Crypto = ({ data, dispatch }) => {
-    useEffect(() => {
-      dispatch({ type: 'FETCH_MARKET_DATA' });
-    }, [dispatch]);
+ 
 
   return (
     <SafeAreaView style={styles.container}>
+      <ListHeader />
       <FlatList
         keyExtractor={item => item.id}
         data={data}
         renderItem={({item}) => (
+    
           <ListItem
             name={item.name}
             symbol={item.symbol}
@@ -33,17 +29,21 @@ const Crypto = ({ data, dispatch }) => {
             }
             logoUrl={item.image}
           />
+          
         )}
-        ListHeaderComponent={<ListHeader />}
       />
+      
     </SafeAreaView>
   );
-};
-const mapStateToProps = state => ({
-  data: state.market.data,
-});
+}
 
-export default connect(mapStateToProps)(Crypto);
+const mapStateToProps = state => {
+  return {
+    data: state.market.data,
+  };
+};
+
+export default connect(mapStateToProps, { fetchMarketData })(Crypto);
 
 const styles = StyleSheet.create({
   container: {

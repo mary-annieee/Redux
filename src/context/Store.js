@@ -1,13 +1,16 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from './reducers/rootReducer';
-import { watchMarketData } from './marketSagas';
+import rootSaga from './sagas';
+import marketReducer from './reducers/marketReducer';
 
+const rootReducer = combineReducers({
+  market: marketReducer,
+});
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
-sagaMiddleware.run(watchMarketData);
+sagaMiddleware.run(rootSaga);
 
 export default store;

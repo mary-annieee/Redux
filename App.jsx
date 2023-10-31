@@ -1,7 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import store from './src/context/Store';
-import Crypto from './src/components/Crypto';
+import Crypto from './src/pages/Crypto';
 
 export default function App() {
   return (
