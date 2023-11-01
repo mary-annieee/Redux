@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
-import {FlatList, StyleSheet, SafeAreaView, View, Text} from 'react-native';
+import {FlatList, StyleSheet, SafeAreaView,View,Text} from 'react-native';
 import {connect} from 'react-redux';
 import ListItem from '../components/ListItem';
 import ListHeader from '../components/ListHeader';
 import { fetchMarketData ,deleteListItem} from '../context/actions/marketAction';
 import Swipeout from 'react-native-swipeout';
+import { refreshMarketData } from '../context/actions/marketAction';
 
-function Crypto({data, fetchMarketData, deleteListItem}) {
+
+function Crypto({data, fetchMarketData, deleteListItem,isLoading }) {
 
   useEffect(() => {
     fetchMarketData();
@@ -15,10 +17,15 @@ function Crypto({data, fetchMarketData, deleteListItem}) {
   const handleDelete = (itemId) => {
     deleteListItem(itemId);
   };
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <ListHeader />
+      {isLoading ? ( 
+        <View style={styles.loadingContainer}>
+          <Text>Loading...</Text>
+        </View>
+      ) : (
       <FlatList
         keyExtractor={item => item.id}
         data={data}
@@ -45,7 +52,7 @@ function Crypto({data, fetchMarketData, deleteListItem}) {
 
         )}
       />
-      
+      )}
     </SafeAreaView>
   );
 }
@@ -53,11 +60,14 @@ function Crypto({data, fetchMarketData, deleteListItem}) {
 const mapStateToProps = state => {
   return {
     data: state.market.data,
+    isLoading: state.market.isLoading,
+   
   };
 };
 const mapDispatchToProps = {
   fetchMarketData,
   deleteListItem,
+  refreshMarketData, 
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Crypto);
 
@@ -90,4 +100,10 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
 });

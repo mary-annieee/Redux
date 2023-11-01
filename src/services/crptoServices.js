@@ -1,10 +1,5 @@
-import axios from 'axios';
+import apiClient from "./ApiKit";
 
-const apiClient = axios.create({
-  baseURL: "https://api.coingecko.com/api/v3",
-});
-
-// Define your API functions
 export const getMarketData = async () => {
   try {
     const response = await apiClient.get("/coins/markets", {
