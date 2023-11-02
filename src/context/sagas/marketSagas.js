@@ -1,16 +1,17 @@
 
 import { takeLatest, call, put} from 'redux-saga/effects';
 import { getMarketData } from '../../services/crptoServices';
-import { setMarketData,setMarketDataError,setLoading } from '../actions/marketAction';
+import {fetchMarketDataFailiure,setLoading,fetchMarketDataSuccess} from '../actions/marketAction';
 
 
 function* fetchMarketData() {
   try {
     yield put(setLoading(true)); 
     const marketData = yield call(getMarketData);
-    yield put(setMarketData(marketData));
+    yield put(setLoading(false));
+    yield put(fetchMarketDataSuccess(marketData));
   } catch (error) {
-    yield put(setMarketDataError(error.message));
+    yield put(fetchMarketDataFailiure(error.message));
   }
   
 }

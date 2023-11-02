@@ -6,17 +6,20 @@ const initialState = {
 
 const marketReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_MARKET_DATA':
+
+      case 'FETCH_MARKET_DATA_SUCCESS':
       return {
         ...state,
         data: action.payload,
-        isLoading: false,
       };
+      
+
       case 'DELETE_LIST_ITEM':
         return {
           ...state,
           data: state.data.filter((item) => item.id !== action.payload),
         };
+
         case SET_LOADING:
       return {
         ...state,
