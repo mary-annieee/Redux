@@ -5,28 +5,32 @@ import ListItem from '../components/ListItem';
 import ListHeader from '../components/ListHeader';
 import { fetchMarketData ,deleteListItem} from '../context/actions/marketAction';
 import Swipeout from 'react-native-swipeout';
-import { refreshMarketData } from '../context/actions/marketAction';
 
 
-function Crypto({data, fetchMarketData, deleteListItem,isLoading }) {
 
+function Crypto({data, fetchMarketData, deleteListItem,isLoading}) {
+
+  //to fetch market data using the "fetchMarketData" function
   useEffect(() => {
     fetchMarketData();
   }, [fetchMarketData]);
 
+  //on swipe invokes the "deleteListItem" action to remove the item from the list.
   const handleDelete = (itemId) => {
     deleteListItem(itemId);
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ListHeader />
+      
       {isLoading ? ( 
         <View style={styles.loadingContainer}>
           <Text>Loading...</Text>
         </View>
       ) : (
       <FlatList
+      
         keyExtractor={item => item.id}
         data={data}
         renderItem={({item}) => (
@@ -57,6 +61,7 @@ function Crypto({data, fetchMarketData, deleteListItem,isLoading }) {
   );
 }
 
+//It maps the "data" and "isLoading" state from the store to props
 const mapStateToProps = state => {
   return {
     data: state.market.data,
@@ -64,10 +69,11 @@ const mapStateToProps = state => {
    
   };
 };
+
+//maps the "fetchMarketData" and "deleteListItem" actions
 const mapDispatchToProps = {
   fetchMarketData,
   deleteListItem,
-  refreshMarketData, 
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Crypto);
 

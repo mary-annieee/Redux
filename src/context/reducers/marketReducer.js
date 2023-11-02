@@ -23,6 +23,7 @@ const marketReducer = (state = initialState, action) => {
         isLoading: action.payload,
       };
       
+
     default:
       return state;
   }
