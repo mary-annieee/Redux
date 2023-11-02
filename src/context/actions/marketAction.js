@@ -1,4 +1,3 @@
-
 export const fetchMarketData = () => ({
   type: 'FETCH_MARKET_DATA',
   
@@ -17,9 +16,8 @@ export const deleteListItem = (itemId) => ({
   type: 'DELETE_LIST_ITEM',
   payload: itemId,
 });
-export const SET_LOADING = 'SET_LOADING';
 
 export const setLoading = (isLoading) => ({
-  type: SET_LOADING,
+  type: 'SET_LOADING',
   payload: isLoading,
 });

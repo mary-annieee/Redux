@@ -1,4 +1,3 @@
-import { SET_LOADING } from "../actions/marketAction";
 const initialState = {
   data: [],
   isLoading: false,
@@ -20,7 +19,7 @@ const marketReducer = (state = initialState, action) => {
           data: state.data.filter((item) => item.id !== action.payload),
         };
 
-        case SET_LOADING:
+      case 'SET_LOADING':
       return {
         ...state,
         isLoading: action.payload,
