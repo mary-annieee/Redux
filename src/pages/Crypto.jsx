@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {FlatList, StyleSheet, SafeAreaView,View,Text} from 'react-native';
+import {FlatList, StyleSheet, SafeAreaView,View,Text,Button} from 'react-native';
 import {connect} from 'react-redux';
 import ListItem from '../components/ListItem';
 import ListHeader from '../components/ListHeader';
@@ -8,16 +8,24 @@ import Swipeout from 'react-native-swipeout';
 
 
 
-function Crypto({data, fetchMarketData, deleteListItem,isLoading}) {
+function Crypto({data, fetchMarketData, deleteListItem,isLoading, currentPage }) {
 
   //to fetch market data using the "fetchMarketData" function
   useEffect(() => {
-    fetchMarketData();
-  }, [fetchMarketData]);
+    fetchMarketData(currentPage); 
+  }, [fetchMarketData,currentPage]);
 
   //on swipe invokes the "deleteListItem" action to remove the item from the list.
   const handleDelete = (itemId) => {
     deleteListItem(itemId);
+  };
+
+  //  Calculate the next page number based on the current page
+  const handleLoadMore = () => {
+    if (!isLoading) {
+    const nextPage = currentPage + 1;
+    fetchMarketData(nextPage);
+    }
   };
 
   return (
@@ -30,7 +38,6 @@ function Crypto({data, fetchMarketData, deleteListItem,isLoading}) {
         </View>
       ) : (
       <FlatList
-      
         keyExtractor={item => item.id}
         data={data}
         renderItem={({item}) => (
@@ -55,6 +62,8 @@ function Crypto({data, fetchMarketData, deleteListItem,isLoading}) {
           </Swipeout>
 
         )}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.1}
       />
       )}
     </SafeAreaView>
@@ -66,7 +75,7 @@ const mapStateToProps = state => {
   return {
     data: state.market.data,
     isLoading: state.market.isLoading,
-   
+    currentPage: state.market.currentPage,
   };
 };
 

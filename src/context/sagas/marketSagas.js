@@ -1,22 +1,31 @@
+import {takeLatest, call, put} from 'redux-saga/effects';
+import {
+  fetchMarketDataFailure,
+  fetchMarketDataSuccess,
+} from '../actions/marketAction';
+import apiClient from '../../services/ApiKit';
 
-import { takeLatest, call, put} from 'redux-saga/effects';
-import { getMarketData } from '../../services/crptoServices';
-import {fetchMarketDataFailiure,setLoading,fetchMarketDataSuccess} from '../actions/marketAction';
-
-
-function* fetchMarketData() {
+function* fetchMarketData(action) {
+  const { page } = action.payload;
+  console.log('Fetching data for page:', page);
+  let data = {
+    params: {
+      vs_currency: 'usd',
+      order: 'market_cap_desc',
+      per_page:10,
+      page:page,
+      sparkline: true,
+      price_change_percentage: '7d',
+    },
+  };
   try {
-    yield put(setLoading(true)); 
-    const marketData = yield call(getMarketData);
-    yield put(setLoading(false));
+    const marketData = yield call(apiClient.get, '/coins/markets', data);
     yield put(fetchMarketDataSuccess(marketData));
   } catch (error) {
-    yield put(fetchMarketDataFailiure(error.message));
+    yield put(fetchMarketDataFailure(error.message));
   }
-  
 }
 
 export function* watchMarketData() {
   yield takeLatest('FETCH_MARKET_DATA', fetchMarketData);
 }
-
