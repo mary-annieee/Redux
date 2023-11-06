@@ -1,7 +1,7 @@
 const initialState = {
   data: [],
   isLoading: false,
-  currentPage: 1,
+  page: 1,
 };
 
 const marketReducer = (state = initialState, action) => {
@@ -9,7 +9,8 @@ const marketReducer = (state = initialState, action) => {
     case 'FETCH_MARKET_DATA':
       return {
         ...state,
-        isLoading: true,
+       isLoading: true,
+        page: action.payload.page,
       };
 
     case 'FETCH_MARKET_DATA_SUCCESS':
@@ -17,7 +18,6 @@ const marketReducer = (state = initialState, action) => {
         ...state,
         data: [...state.data, ...action.payload.data],
         isLoading: false,
-        currentPage: state.currentPage + 1, 
       };
 
     case 'FETCH_MARKET_DATA_FAILURE':

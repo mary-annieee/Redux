@@ -8,12 +8,12 @@ import apiClient from '../../services/ApiKit';
 function* fetchMarketData(action) {
   const { page } = action.payload;
   console.log('Fetching data for page:', page);
-  let data = {
+  const data = {
     params: {
       vs_currency: 'usd',
       order: 'market_cap_desc',
-      per_page:10,
-      page:page,
+      per_page: 10,
+      page,
       sparkline: true,
       price_change_percentage: '7d',
     },

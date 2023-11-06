@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
-const ListItem = ({ name, symbol, currentPrice, priceChangePercentage7d, logoUrl, onPress }) => {
+const ListItem = React.memo(({ name, symbol, currentPrice, priceChangePercentage7d, logoUrl, onPress }) => {
   const priceChangeColor = priceChangePercentage7d > 0 ? '#34C759' : '#FF3B30';
 
   return (
@@ -27,7 +27,7 @@ const ListItem = ({ name, symbol, currentPrice, priceChangePercentage7d, logoUrl
       </View>
     </TouchableOpacity>
   )
-}
+});
 
 const styles = StyleSheet.create({
   itemWrapper: {
