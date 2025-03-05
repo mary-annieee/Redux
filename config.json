@@ -1,7 +1,7 @@
 {
     "CourseID": "C12345",
     "UserID": "U67890",
-    "TrackingProgress": "75%"
+    "TrackingProgress": "75%",
     "LessonLocation": "Module 3 - Section 2",
     "SuspendData": "progress=45%",
     "LessonStatus": "in-progress",
