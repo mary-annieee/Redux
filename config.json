@@ -1,6 +1,7 @@
 {
     "CourseID": "C12345",
-    "UserID": "U67890",
-    "TrackingProgress": "75%"
-
-  }
+    "LessonLocation": "Module 3 - Section 2",
+    "SuspendData": "progress=45%;attempts=2",
+    "LessonStatus": "in-progress",
+    "LearnerScore": 78
+}
